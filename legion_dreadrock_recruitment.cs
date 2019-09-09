@@ -15,8 +15,6 @@
 		The script can be modified to go longer
 		than Legion Tokens x2000.
 
-		The script uses all skills indescriminately.
-
 		The script uses a private room.
 
 		The player will use a hunt mode - which 
