@@ -1,25 +1,16 @@
 /*
 	Created by matabeitt
-	This script farms for Legion Tokens x2000
-	using a Dreadrock map quest called "Undead 
-	Champion Recruitment".
+	This script farms for gold by completing the 
+	Berserker Bunny Armor quest and selling it 
+	continuously. The script will finish when 
+	there is no more gold income.
 	
 	Requirements:
 		The player must have 1 (one) free inventory 
-		space.
-
-		The player must have Undead Warrior (Armor) 
-		in their inventory.	
+		space.	
 
 	Notes:
-		The script can be modified to go longer
-		than Legion Tokens x2000.
-
 		The script uses a private room.
-
-		The player will use a hunt mode - which 
-		teleports between room/cell to find new 
-		targets.
 */
 
 using RBot;
