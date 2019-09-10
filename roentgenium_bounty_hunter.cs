@@ -40,6 +40,7 @@ public class Script{
 		BlackKnightOrb(bot);
 		
 		// Elder's Blood
+		EldersBlood(bot);
 		
 		// Dwakel Decoder
 		DwakelDecoder(bot);
@@ -83,6 +84,23 @@ public class Script{
 		
 		bot.Wait.ForDrop("Black Knight Orb");
 		bot.Player.Pickup("Black Knight Orb");
+		
+		return;
+	}
+	
+	public void EldersBlood (ScriptInterface bot) {
+		if (bot.Bank.Contains("Elder's Blood")) return;
+		if (bot.Inventory.Contains("Elder's Blood")) return;
+		
+		bot.Player.Join("arcangrove");
+		
+		bot.Quests.EnsureAccept(802);
+		
+		bot.Player.HuntForItem("Gorillaphant", "Slain Gorillaphant", 50, true, true);
+		
+		bot.Quests.EnsureComplete(802);
+		bot.Wait.ForDrop("Elder's Blood");
+		bot.Player.Pickup("Elder's Blood");
 		
 		return;
 	}
