@@ -58,6 +58,9 @@ public class Script{
 		// Nulgath Approval + Archfiend Favor (x300)
 		Underworld (bot);
 		
+		// Elemental Ink (x10)
+		// ?
+		
 		// The Secret 1
 		Secret (bot);
 		
@@ -68,9 +71,10 @@ public class Script{
 		BoneDust(bot);
 		
 		// Nulgath Shaped Chocolate
-		Chocolate(bot);
+		Chocolate(bot);		
 		
-		
+		// Essence of Nulgath (x50)
+		Essence(bot);
 		
 	}
 	
@@ -197,8 +201,8 @@ public class Script{
 	}
 	
 	public void TaintedGem (ScriptInterface bot) {
-		if (bot.Bank.Contains("Tainted Gem", 100)) return;
-		if (bot.Inventory.Contains("Tainted Gem", 100)) return;
+		bot.Bank.ToInventory("Tainted Gem");
+		if (bot.Inventory.GetQuantity("Tainted Gem") >= 100) return;
 		
 		bot.Player.Join("battleunderb");
 		
@@ -220,8 +224,8 @@ public class Script{
 	}
 	
 	public void Underworld(ScriptInterface bot) {
-		if (bot.Bank.Contains("Nulgath's Approval", 300)) return;
-		if (bot.Bank.Contains("Archfiend's Favor", 300)) return;
+		bot.Bank.ToInventory("Nulgath's Approval");
+		bot.Bank.ToInventory("Archfiend's Favor");
 		if (bot.Inventory.Contains("Nulgath's Approval", 300)) return;
 		if (bot.Inventory.Contains("Archfiend's Favor", 300)) return;
 		
@@ -236,7 +240,7 @@ public class Script{
 	}
 	
 	public void Secret(ScriptInterface bot) {
-		if (bot.Bank.Contains("The Secret 1")) return;
+		bot.Bank.ToInventory("The Secret 1");
 		if (bot.Inventory.Contains("The Secret 1")) return;
 		
 		bot.Player.Join("willowcreek");
@@ -248,7 +252,7 @@ public class Script{
 	}
 	
 	public void Aelita (ScriptInterface bot) {
-		if (bot.Bank.Contains("Aelita's Emerald")) return;
+		bot.Bank.ToInventory("Aelita's Emerald");
 		if (bot.Inventory.Contains("Aelita's Emerald")) return;
 		
 		bot.Player.Join("yulgar");
@@ -261,7 +265,7 @@ public class Script{
 	}
 	
 	public void BoneDust (ScriptInterface bot) {
-		if (bot.Bank.Contains("Bone Dust", 20)) return;
+		bot.Bank.ToInventory("Bone Dust");
 		if (bot.Inventory.Contains("Bone Dust", 20)) return;
 		
 		bot.Player.Join("battleunderb");
@@ -272,7 +276,7 @@ public class Script{
 	}
 	
 	public void Chocolate (ScriptInterface bot) {
-		if (bot.Bank.Contains("Nulgath Shaped Chocolate")) return;
+		bot.Bank.ToInventory("Nulgath Shaped Chocolate");
 		if (bot.Inventory.Contains("Nulgath Shaped Chocolate")) return;
 		
 		bot.Player.Join("citadel");
@@ -280,6 +284,19 @@ public class Script{
 		bot.Sleep(1000);
 		
 		bot.Shops.BuyItem("Nulgath Shaped Chocolate");
+		
+		return;
+	}
+	
+	public void Essence (ScriptInterface bot) {
+		bot.Bank.ToInventory("Essence of Nulgath");
+		if (bot.Inventory.GetQuantity("Essence of Nulgath") >= 50) return;
+		
+		bot.Player.Join("citadel", "m22", "Left");
+		bot.Sleep(1000);
+		bot.Player.Join("tercessuinotlim");
+		
+		bot.Player.HuntForItem("Dark Makai", "Essence of Nulgath", 50);
 		
 		return;
 	}
