@@ -59,8 +59,13 @@ public class Script{
 		// Aelita's Emerald
 		Aelita(bot);
 		
+		// Bone Dust (x20)
+		BoneDust(bot);
+		
 		// Nulgath Shaped Chocolate
 		Chocolate(bot);
+		
+		
 		
 	}
 	
@@ -160,6 +165,17 @@ public class Script{
 		bot.Sleep(1000);
 		
 		bot.Shops.BuyItem("Aelita's Emerald");
+		
+		return;
+	}
+	
+	public void BoneDust (ScriptInterface bot) {
+		if (bot.Bank.Contains("Bone Dust", 20)) return;
+		if (bot.Inventory.Contains("Bone Dust", 20)) return;
+		
+		bot.Player.Join("battleunderb");
+		
+		bot.Player.HuntForItem("Skeleton Warrior", "Bone Dust", 20, false, true);
 		
 		return;
 	}
