@@ -11,6 +11,9 @@
 
 		This version requires Bounty Hunter's Drone Pet 
 		to gather some materials - as it is easier.
+		
+		Must be able to do Nation Recruits: Seal Your Fate 
+		quest in Shadowblast Arena.
 
 	Notes:
 		The script uses private rooms throughout the 
@@ -36,10 +39,23 @@ public class Script{
 		// Black Knight Orb
 		BlackKnightOrb(bot);
 		
+		// Elder's Blood
+		
 		// Dwakel Decoder
 		
-		// Nulgath Approval + Archfiend Favor
+		// Bounty Hunter
+			// Unidentified 13 (x1)
+			// Gem of Nulgath (x20)
+			// Tainted Gem (x100)
+
+		// Nulgath Approval + Archfiend Favor (x300)
 		Underworld (bot);
+		
+		// The Secret 1
+		
+		// Aelita's Emerald
+		
+		// Nulgath Shaped Chocolate
 		
 	}
 	
@@ -75,8 +91,8 @@ public class Script{
 		if (bot.Inventory.Contains("Nulgath's Approval", 300)) return;
 		if (bot.Inventory.Contains("Archfiend's Favor", 300)) return;
 		
-		bot.Bank.ToInventory("Nulgath's Approval");
-		bot.Bank.ToInventory("Archfiend's Favor");
+		if (bot.Bank.Contains("Nulgath's Approval")) bot.Bank.ToInventory("Nulgath's Approval");
+		if (bot.Bank.Contains("Archfiend's Approval")) bot.Bank.ToInventory("Archfiend's Favor");
 		
 		bot.Player.Join("underworld");
 
