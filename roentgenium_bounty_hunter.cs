@@ -38,6 +38,7 @@ public class Script{
 		
 		// Initialisation
 		bot.Player.LoadBank();
+		bot.Inventory.BankAllCoinItems();
 		
 		// Black Knight Orb
 		BlackKnightOrb(bot);
@@ -141,7 +142,9 @@ public class Script{
 		
 		foreach (string s in bounties) {
 			bot.Bank.ToInventory(s);
+			bot.Drops.Add(s);
 		}
+		
 		if (bot.Bank.Contains("Unidentified 13", 1) &&
 			bot.Bank.Contains("Gem of Nulgath", 20) &&
 			bot.Bank.Contains("Tainted Gem", 100)) return;
@@ -151,24 +154,37 @@ public class Script{
 			bot.Inventory.Contains("Tainted Gem", 100)) return;
 			
 		
+		bot.Drops.RejectElse = true;
+		bot.Drops.Start();
+		
+		while (!(bot.Bank.Contains("Unidentified 13", 1) &&
+			bot.Bank.Contains("Gem of Nulgath", 20) &&
+			bot.Bank.Contains("Tainted Gem", 100))) {
+			bot.Quests.EnsureAccept(6183);
 			
-		bot.Quests.EnsureAccept(6183);
+			bot.Player.Join("mobius", "Slugfit", "Bottom");
+			
+			bot.Player.HuntForItem("*", "Slugfit Horn", 5, true, false);
+			
+			bot.Player.HuntForItem("Fire Imp", "Imp Flame", 3, true, false);
+			
+			bot.Player.Join("faerie");
+			bot.Player.HuntForItem("Cyclops Warlord", "Cyclops Horn", 3, true, false);
+			
+			bot.Player.Join("citadel", "m22", "Left");
+			bot.Sleep(1000);
+			bot.Player.Join("tercessuinotim");
+			
+			bot.Player.HuntForItem("Dark Makai", "Makai Fang", 5, true, false);
+			
+			bot.Player.Join("greenguardwest");
+			
+			bot.Player.HuntForItem("Big Bad Boar", "Wereboar Tusk", 2, true, false);
+			
+			bot.Quests.EnsureComplete(6183);
+		}
 		
-		bot.Player.Join("mobius", "Slugfit", "Bottom");
-		
-		bot.Player.KillForItem("*", "Slugfit Horn", 5, true, true);
-		
-		bot.Player.HuntForItem("Fire Imp", "Imp Flame", 3, true, true);
-		
-		bot.Player.Join("citadel", "m22", "Left");
-		bot.Sleep(1000);
-		bot.Player.Join("tercessuinotim");
-		
-		bot.Player.HuntForItem("Dark Makai", "Makai Fang", 5, true, true);
-		
-		bot.Player.Join("greenguardwest");
-		
-		bot.Player.HuntForItem("Big Bad Boar", "Wereboar Tusk", 2, true, true);
+		bot.Drops.Stop();
 		
 		return;
 	}
