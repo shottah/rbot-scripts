@@ -60,6 +60,7 @@ public class Script{
 		Aelita(bot);
 		
 		// Nulgath Shaped Chocolate
+		Chocolate(bot);
 		
 	}
 	
@@ -159,6 +160,19 @@ public class Script{
 		bot.Sleep(1000);
 		
 		bot.Shops.BuyItem("Aelita's Emerald");
+		
+		return;
+	}
+	
+	public void Chocolate (ScriptInterface bot) {
+		if (bot.Bank.Contains("Nulgath Shaped Chocolate")) return;
+		if (bot.Inventory.Contains("Nulgath Shaped Chocolate")) return;
+		
+		bot.Player.Join("citadel");
+		
+		bot.Sleep(1000);
+		
+		bot.Shops.BuyItem("Nulgath Shaped Chocolate");
 		
 		return;
 	}
