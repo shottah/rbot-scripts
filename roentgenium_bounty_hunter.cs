@@ -37,8 +37,8 @@ public class Script{
 		}
 		
 		// Initialisation
-		//bot.Player.LoadBank();
-		//bot.Inventory.BankAllCoinItems();
+		bot.Player.LoadBank();
+		bot.Inventory.BankAllCoinItems();
 		
 		// Black Knight Orb
 		BlackKnightOrb(bot);
@@ -137,21 +137,21 @@ public class Script{
 		string [] bounties = {
 			"Dark Crystal Shard", "Diamond of Nulgath",
 			"Unidentified 13", "Tainted Gem", "Voucher of Nulgath", "Voucher of Nulgath (non-mem)",
-			"Totem of Nulgath", "Gem of Nulgath", "Fiend Token", "Blood Gem of the Archfiend"
+			"Totem of Nulgath", "Gem of Nulgath", "Fiend Token", "Blood Gem of the Archfiend", "Defeated Makai",
+			"Essence of Nulgath"
 		};
 		
 		foreach (string s in bounties) {
 			bot.Bank.ToInventory(s);
 		}
 		
-		if (bot.Bank.Contains("Unidentified 13", 1) &&
-			bot.Bank.Contains("Gem of Nulgath", 20)) return;
-		
-		if (bot.Inventory.Contains("Unidentified 13", 1) &&
-			bot.Inventory.Contains("Gem of Nulgath", 20)) return;
-		
-		while (!(bot.Bank.Contains("Unidentified 13", 1) &&
-			bot.Bank.Contains("Gem of Nulgath", 20))) {
+		if (bot.Inventory.GetQuantity("Unidentified 13") < 1 &&
+			bot.Inventory.GetQuantity("Gem of Nulgath") < 20 &&
+			bot.Inventory.GetQuantity("Tainted Gem") < 100) return;
+			
+		while (bot.Inventory.GetQuantity("Unidentified 13") < 1 &&
+			bot.Inventory.GetQuantity("Gem of Nulgath") < 20) {
+			
 			bot.Quests.EnsureAccept(6183);
 			
 			bot.Player.Join("mobius", "Slugfit", "Bottom");
@@ -189,7 +189,9 @@ public class Script{
 		
 		bot.Player.RejectAll();
 		
-		if (!bot.Inventory.Contains("Tainted Gem", 100)) TaintedGem(bot);
+		bot.Inventory.BankAllCoinItems();
+		
+		if (!bot.Bank.Contains("Tainted Gem", 100)) TaintedGem(bot);
 		
 		return;
 	}
@@ -198,7 +200,10 @@ public class Script{
 		if (bot.Bank.Contains("Tainted Gem", 100)) return;
 		if (bot.Inventory.Contains("Tainted Gem", 100)) return;
 		
-		bot.Player.Join("battleunderb-9999");
+		bot.Player.Join("battleunderb");
+		
+		bot.Bank.ToInventory("Bone Dust");
+		bot.Bank.ToInventory("Tainted Gem");
 		
 		while (!bot.Inventory.Contains("Tainted Gem", 100)) {
 			bot.Quests.EnsureAccept(568);
@@ -208,6 +213,8 @@ public class Script{
 			bot.Wait.ForDrop("Tainted Gem");
 			bot.Player.Pickup("Tainted Gem");
 		}
+		
+		bot.Options.PrivateRooms = true;
 		
 		return;
 	}
