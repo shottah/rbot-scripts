@@ -57,6 +57,7 @@ public class Script{
 		Secret (bot);
 		
 		// Aelita's Emerald
+		Aelita(bot);
 		
 		// Nulgath Shaped Chocolate
 		
@@ -146,6 +147,16 @@ public class Script{
 		bot.Quests.EnsureAccept(623);
 		bot.Player.HuntForItem("Hidden Spy", "The Secret 1", 1, false, true);
 			
+		return;
+	}
+	
+	public void Aelita (ScriptInterface bot) {
+		if (bot.Bank.Contains("Aelita's Emerald")) return;
+		if (bot.Inventory.Contains("Aelita's Emerald")) return;
+		
+		bot.Player.Join("yulgar");
+		bot.Shops.BuyItem("Aelita's Emerald");
+		
 		return;
 	}
 }
