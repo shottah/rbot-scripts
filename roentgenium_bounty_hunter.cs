@@ -94,7 +94,7 @@ public class Script{
 		if (bot.Bank.Contains("Nulgath's Approval")) bot.Bank.ToInventory("Nulgath's Approval");
 		if (bot.Bank.Contains("Archfiend's Approval")) bot.Bank.ToInventory("Archfiend's Favor");
 		
-		bot.Player.Join("underworld");
+		bot.Player.Join("evilwarnul");
 
 		bot.Player.HuntForItems("Legion Fenrir", new string [] {"Archfiend's Favor", "Nulgath's Approval"}, new int [] {300, 300}, false, true);
 		
