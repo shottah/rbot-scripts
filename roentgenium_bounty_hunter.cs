@@ -37,8 +37,8 @@ public class Script{
 		}
 		
 		// Initialisation
-		bot.Player.LoadBank();
-		bot.Inventory.BankAllCoinItems();
+		//bot.Player.LoadBank();
+		//bot.Inventory.BankAllCoinItems();
 		
 		// Black Knight Orb
 		BlackKnightOrb(bot);
@@ -142,49 +142,72 @@ public class Script{
 		
 		foreach (string s in bounties) {
 			bot.Bank.ToInventory(s);
-			bot.Drops.Add(s);
 		}
 		
 		if (bot.Bank.Contains("Unidentified 13", 1) &&
-			bot.Bank.Contains("Gem of Nulgath", 20) &&
-			bot.Bank.Contains("Tainted Gem", 100)) return;
+			bot.Bank.Contains("Gem of Nulgath", 20)) return;
 		
 		if (bot.Inventory.Contains("Unidentified 13", 1) &&
-			bot.Inventory.Contains("Gem of Nulgath", 20) &&
-			bot.Inventory.Contains("Tainted Gem", 100)) return;
-			
-		
-		bot.Drops.RejectElse = true;
-		bot.Drops.Start();
+			bot.Inventory.Contains("Gem of Nulgath", 20)) return;
 		
 		while (!(bot.Bank.Contains("Unidentified 13", 1) &&
-			bot.Bank.Contains("Gem of Nulgath", 20) &&
-			bot.Bank.Contains("Tainted Gem", 100))) {
+			bot.Bank.Contains("Gem of Nulgath", 20))) {
 			bot.Quests.EnsureAccept(6183);
 			
 			bot.Player.Join("mobius", "Slugfit", "Bottom");
 			
-			bot.Player.HuntForItem("*", "Slugfit Horn", 5, true, false);
+			bot.Sleep(1000);
+			
+			bot.Player.HuntForItem("Slugfit", "Slugfit Horn", 5, true, false);
 			
 			bot.Player.HuntForItem("Fire Imp", "Imp Flame", 3, true, false);
 			
 			bot.Player.Join("faerie");
 			bot.Player.HuntForItem("Cyclops Warlord", "Cyclops Horn", 3, true, false);
+			bot.Player.Jump("Enter", "Spawn");
 			
 			bot.Player.Join("citadel", "m22", "Left");
-			bot.Sleep(1000);
-			bot.Player.Join("tercessuinotim");
+			bot.Sleep(2000);
+			bot.Player.Join("tercessuinotlim");
 			
 			bot.Player.HuntForItem("Dark Makai", "Makai Fang", 5, true, false);
+			bot.Player.Jump("Enter", "Spawn");
+			
 			
 			bot.Player.Join("greenguardwest");
 			
 			bot.Player.HuntForItem("Big Bad Boar", "Wereboar Tusk", 2, true, false);
 			
 			bot.Quests.EnsureComplete(6183);
+			
+			bot.Wait.ForQuestComplete(6183);
+			bot.Player.Pickup(bounties);
 		}
 		
-		bot.Drops.Stop();
+		bot.Player.Pickup("Defeated Makai");
+		bot.Player.Pickup("Essence of Nulgath");
+		
+		bot.Player.RejectAll();
+		
+		if (!bot.Inventory.Contains("Tainted Gem", 100)) TaintedGem(bot);
+		
+		return;
+	}
+	
+	public void TaintedGem (ScriptInterface bot) {
+		if (bot.Bank.Contains("Tainted Gem", 100)) return;
+		if (bot.Inventory.Contains("Tainted Gem", 100)) return;
+		
+		bot.Player.Join("battleunderb-9999");
+		
+		while (!bot.Inventory.Contains("Tainted Gem", 100)) {
+			bot.Quests.EnsureAccept(568);
+			bot.Player.HuntForItem("Skeleton Warrior", "Bone Dust", 25, false, false);
+			bot.Player.Pickup("Undead Essence");
+			bot.Quests.EnsureComplete(568);
+			bot.Wait.ForDrop("Tainted Gem");
+			bot.Player.Pickup("Tainted Gem");
+		}
 		
 		return;
 	}
