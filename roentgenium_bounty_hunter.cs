@@ -88,8 +88,8 @@ public class Script{
 	}
 	
 	public void DwakelDecoder(ScriptInterface bot) {
-		if (bot.Bank.Contains("Dwakel Decoder") return;
-		if (bot.Inventory.Contains("Dwakel Decoder") return;
+		if (bot.Bank.Contains("Dwakel Decoder")) return;
+		if (bot.Inventory.Contains("Dwakel Decoder")) return;
 		
 		bot.Player.Join("crashsite");
 		
@@ -120,8 +120,8 @@ public class Script{
 	}
 	
 	public void Secret(ScriptInterface bot) {
-		if (bot.Bank.Contains("The Secret 1") return;
-		if (bot.Inventory.Contains("The Secret 1") return;
+		if (bot.Bank.Contains("The Secret 1")) return;
+		if (bot.Inventory.Contains("The Secret 1")) return;
 		
 		bot.Player.Join("willowcreek");
 		
