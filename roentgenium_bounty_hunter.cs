@@ -36,6 +36,9 @@ public class Script{
 			bot.Skills.Add(i, 1f);
 		}
 		
+		// Initialisation
+		bot.Player.LoadBank();
+		
 		// Black Knight Orb
 		BlackKnightOrb(bot);
 		
@@ -49,6 +52,7 @@ public class Script{
 			// Unidentified 13 (x1)
 			// Gem of Nulgath (x20)
 			// Tainted Gem (x100)
+		Bounty(bot);
 
 		// Nulgath Approval + Archfiend Favor (x300)
 		Underworld (bot);
@@ -124,6 +128,47 @@ public class Script{
 		
 		bot.Wait.ForDrop("Dwakel Decoder");
 		bot.Player.Pickup("Dwakel Decoder");
+		
+		return;
+	}
+	
+	public void Bounty(ScriptInterface bot) {
+		string [] bounties = {
+			"Dark Crystal Shard", "Diamond of Nulgath",
+			"Unidentified 13", "Tainted Gem", "Voucher of Nulgath", "Voucher of Nulgath (non-mem)",
+			"Totem of Nulgath", "Gem of Nulgath", "Fiend Token", "Blood Gem of the Archfiend"
+		};
+		
+		foreach (string s in bounties) {
+			bot.Bank.ToInventory(s);
+		}
+		if (bot.Bank.Contains("Unidentified 13", 1) &&
+			bot.Bank.Contains("Gem of Nulgath", 20) &&
+			bot.Bank.Contains("Tainted Gem", 100)) return;
+		
+		if (bot.Inventory.Contains("Unidentified 13", 1) &&
+			bot.Inventory.Contains("Gem of Nulgath", 20) &&
+			bot.Inventory.Contains("Tainted Gem", 100)) return;
+			
+		
+			
+		bot.Quests.EnsureAccept(6183);
+		
+		bot.Player.Join("mobius", "Slugfit", "Bottom");
+		
+		bot.Player.KillForItem("*", "Slugfit Horn", 5, true, true);
+		
+		bot.Player.HuntForItem("Fire Imp", "Imp Flame", 3, true, true);
+		
+		bot.Player.Join("citadel", "m22", "Left");
+		bot.Sleep(1000);
+		bot.Player.Join("tercessuinotim");
+		
+		bot.Player.HuntForItem("Dark Makai", "Makai Fang", 5, true, true);
+		
+		bot.Player.Join("greenguardwest");
+		
+		bot.Player.HuntForItem("Big Bad Boar", "Wereboar Tusk", 2, true, true);
 		
 		return;
 	}
