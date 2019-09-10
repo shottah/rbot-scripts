@@ -155,6 +155,9 @@ public class Script{
 		if (bot.Inventory.Contains("Aelita's Emerald")) return;
 		
 		bot.Player.Join("yulgar");
+		
+		bot.Sleep(1000);
+		
 		bot.Shops.BuyItem("Aelita's Emerald");
 		
 		return;
