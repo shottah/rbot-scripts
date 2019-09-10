@@ -34,22 +34,19 @@ public class Script{
 		int q = 5100;
 		
 		bot.Bank.ToInventory(item);
-		bot.Drops.Add(item);
-		bot.Drops.Start();
 		
 		double hp;
 		while (!bot.ShouldExit() || bot.Inventory.Contains(item, quantity:q)) {
 			hp = (double) bot.Player.Health / bot.Player.MaxHealth;
-			bot.Log(hp.ToString());
+			bot.Log("Current Health: " + hp.ToString());
 			if (hp < 0.4) {
 				bot.Player.Jump("r1", "Left");
 				bot.Player.Rest(full:true);
 				bot.Player.Jump("Enter", "Right");
 			}
-			else bot.Player.Hunt("Skeleton Warrior|Skeleton Fighter");
+			bot.Player.Kill("Skeleton Warrior");
+			if (bot.Player.DropExists(item)) bot.Player.Pickup(item);
 		}
-		
-		bot.Drops.Stop();
 		bot.Exit();
 	}
 }
