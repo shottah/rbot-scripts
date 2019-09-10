@@ -42,6 +42,7 @@ public class Script{
 		// Elder's Blood
 		
 		// Dwakel Decoder
+		DwakelDecoder(bot);
 		
 		// Bounty Hunter
 			// Unidentified 13 (x1)
@@ -52,6 +53,7 @@ public class Script{
 		Underworld (bot);
 		
 		// The Secret 1
+		Secret (bot);
 		
 		// Aelita's Emerald
 		
@@ -85,6 +87,22 @@ public class Script{
 		return;
 	}
 	
+	public void DwakelDecoder(ScriptInterface bot) {
+		if (bot.Bank.Contains("Dwakel Decoder") return;
+		if (bot.Inventory.Contains("Dwakel Decoder") return;
+		
+		bot.Player.Join("crashsite");
+		
+		bot.Sleep(1000);
+		
+		bot.SendPacket("%xt%zm%getMapItem%0%106%-1%false%wvz%");
+		
+		bot.Wait.ForDrop("Dwakel Decoder");
+		bot.Player.Pickup("Dwakel Decoder");
+		
+		return;
+	}
+	
 	public void Underworld(ScriptInterface bot) {
 		if (bot.Bank.Contains("Nulgath's Approval", 300)) return;
 		if (bot.Bank.Contains("Archfiend's Favor", 300)) return;
@@ -98,6 +116,18 @@ public class Script{
 
 		bot.Player.HuntForItems("Legion Fenrir", new string [] {"Archfiend's Favor", "Nulgath's Approval"}, new int [] {300, 300}, false, true);
 		
+		return;
+	}
+	
+	public void Secret(ScriptInterface bot) {
+		if (bot.Bank.Contains("The Secret 1") return;
+		if (bot.Inventory.Contains("The Secret 1") return;
+		
+		bot.Player.Join("willowcreek");
+		
+		bot.Quests.EnsureAccept(623);
+		bot.Player.HuntForItem("Hidden Spy", "The Secret 1", 1, false, true);
+			
 		return;
 	}
 }
