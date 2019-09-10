@@ -90,8 +90,8 @@ public class Script{
 	}
 	
 	public void EldersBlood (ScriptInterface bot) {
-		if (bot.Bank.Contains("Elder's Blood")) return;
-		if (bot.Inventory.Contains("Elder's Blood")) return;
+		if (bot.Bank.Contains("Elders' Blood")) return;
+		if (bot.Inventory.Contains("Elders' Blood")) return;
 		
 		bot.Player.Join("arcangrove");
 		
@@ -100,8 +100,8 @@ public class Script{
 		bot.Player.HuntForItem("Gorillaphant", "Slain Gorillaphant", 50, true, true);
 		
 		bot.Quests.EnsureComplete(802);
-		bot.Wait.ForDrop("Elder's Blood");
-		bot.Player.Pickup("Elder's Blood");
+		bot.Wait.ForDrop("Elders' Blood");
+		bot.Player.Pickup("Elders' Blood");
 		
 		return;
 	}
