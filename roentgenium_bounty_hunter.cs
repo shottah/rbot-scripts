@@ -53,13 +53,16 @@ public class Script{
 			// Unidentified 13 (x1)
 			// Gem of Nulgath (x20)
 			// Tainted Gem (x100)
-		Bounty(bot);
+		//Bounty(bot);
 
 		// Nulgath Approval + Archfiend Favor (x300)
 		Underworld (bot);
 		
+		// Emblem of Nulgath
+		Emblem (bot);
+		
 		// Elemental Ink (x10)
-		// ?
+		ElementalInk (bot);
 		
 		// The Secret 1
 		Secret (bot);
@@ -79,7 +82,7 @@ public class Script{
 	}
 	
 	public void BlackKnightOrb(ScriptInterface bot) {
-		if (bot.Bank.Contains("Black Knight Orb")) return;
+		bot.Bank.ToInventory("Black Knight Orb");
 		if (bot.Inventory.Contains("Black Knight Orb")) return;
 		
 		bot.Quests.EnsureAccept(318);
@@ -105,12 +108,12 @@ public class Script{
 	}
 	
 	public void EldersBlood (ScriptInterface bot) {
-		if (bot.Bank.Contains("Elders' Blood")) return;
+		bot.Bank.ToInventory("Elders' Blood");
 		if (bot.Inventory.Contains("Elders' Blood")) return;
 		
 		bot.Player.Join("arcangrove");
 		
-		bot.Quests.EnsureAccept(802);
+		if (!bot.Quests.EnsureAccept(802)) return;
 		
 		bot.Player.HuntForItem("Gorillaphant", "Slain Gorillaphant", 50, true, true);
 		
@@ -122,7 +125,7 @@ public class Script{
 	}
 	
 	public void DwakelDecoder(ScriptInterface bot) {
-		if (bot.Bank.Contains("Dwakel Decoder")) return;
+		bot.Bank.ToInventory("Dwakel Decoder");
 		if (bot.Inventory.Contains("Dwakel Decoder")) return;
 		
 		bot.Player.Join("crashsite");
@@ -149,9 +152,9 @@ public class Script{
 			bot.Bank.ToInventory(s);
 		}
 		
-		if (bot.Inventory.GetQuantity("Unidentified 13") < 1 &&
-			bot.Inventory.GetQuantity("Gem of Nulgath") < 20 &&
-			bot.Inventory.GetQuantity("Tainted Gem") < 100) return;
+		if (bot.Inventory.GetQuantity("Unidentified 13") >= 1 &&
+			bot.Inventory.GetQuantity("Gem of Nulgath") >= 20 &&
+			bot.Inventory.GetQuantity("Tainted Gem") >= 100) return;
 			
 		while (bot.Inventory.GetQuantity("Unidentified 13") < 1 &&
 			bot.Inventory.GetQuantity("Gem of Nulgath") < 20) {
@@ -239,6 +242,52 @@ public class Script{
 		return;
 	}
 	
+	public void Emblem (ScriptInterface bot) {
+		bot.Bank.ToInventory("Nation Round 4 Medal");
+		bot.Bank.ToInventory("Emblem of Nulgath");
+		if (bot.Inventory.GetQuantity("Emblem of Nulgath") >= 20) return;
+		
+		bot.Player.Join("shadowblast");
+		
+		bot.Bank.ToInventory("Fiend Seal");
+		bot.Bank.ToInventory("Gem of Domination");
+		
+		while (bot.Inventory.GetQuantity("Emblem of Nulgath") < 20) {
+			bot.Quests.EnsureAccept(4748);
+			bot.Player.Jump("r14", "Left");
+			bot.Player.HuntForItems("Legion Airstrike|Paragon|Doombringer|Doomknight Prime", 
+				new string [] {"Fiend Seal", "Gem of Domination"}, 
+				new int [] {25, 1}, false, true);
+			bot.Player.Jump("Enter", "Spawn");
+			bot.Quests.EnsureComplete(4748);
+			bot.Wait.ForDrop("Emblem of Nulgath");
+			bot.Player.Pickup("Emblem of Nulgath");
+		}
+		bot.Sleep(2000);
+		bot.Player.RejectAll();
+		
+		return;
+	}
+	
+	public void ElementalInk(ScriptInterface bot) {
+		bot.Bank.ToInventory("Elemental Ink");
+		if (bot.Inventory.GetQuantity("Elemental Ink") >= 10) return;
+		
+		bot.Player.Join("mobius", "Slugfit", "Bottom");
+		
+		while (bot.Inventory.GetQuantity("Mystic Quills") < 20) {
+			bot.Player.Kill("*");
+			bot.Player.Pickup("Mystic Quills");
+		}
+		
+		bot.Player.Join("spellcraft");
+		
+		while (bot.Inventory.GetQuantity("Mystic Quills") > 2) {
+			bot.SendPacket("%xt%zm%buyItem%671975%13284%549%1637%");
+        	bot.Sleep(1500);
+		}
+	}
+	
 	public void Secret(ScriptInterface bot) {
 		bot.Bank.ToInventory("The Secret 1");
 		if (bot.Inventory.Contains("The Secret 1")) return;
@@ -290,13 +339,16 @@ public class Script{
 	
 	public void Essence (ScriptInterface bot) {
 		bot.Bank.ToInventory("Essence of Nulgath");
+		bot.Bank.ToInventory("Defeated Makai");
 		if (bot.Inventory.GetQuantity("Essence of Nulgath") >= 50) return;
 		
 		bot.Player.Join("citadel", "m22", "Left");
 		bot.Sleep(1000);
 		bot.Player.Join("tercessuinotlim");
 		
-		bot.Player.HuntForItem("Dark Makai", "Essence of Nulgath", 50);
+		bot.Player.HuntForItem("Dark Makai", "Essence of Nulgath", 50, false, false);
+		
+		bot.Player.Pickup("Defeated Makai");
 		
 		return;
 	}
