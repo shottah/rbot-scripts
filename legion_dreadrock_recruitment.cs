@@ -37,7 +37,7 @@ public class Script{
 		for (int i = 1; i <= 4; i++) {
 			bot.Skills.Add(i, 1f);
 		}
-		
+		bot.Player.LoadBank();
 		bot.Inventory.BankAllCoinItems();
 		
 		bot.Bank.ToInventory("Legion Token");
