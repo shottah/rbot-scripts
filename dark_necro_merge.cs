@@ -44,7 +44,7 @@ public class Script{
 				bot.Player.HuntForItem("Fetid Beast|Eternal Mosher|Megadread|Toxic Beast", "Dark Metal Ore", 200, false, false);
 				bot.Player.Pickup(tier2);
 			}
-			bot.Player.HuntForItems("Megadead|Giant Treasure Chest|Thrash|Toxic Beast|Large Toxic Beast", tier2, new int [] {600,600,600,600}, false, true);
+			bot.Player.HuntForItems("Megadead|Giant Treasure Chest|Thrash|Toxic Beast|Large Toxic Beast", tier2, new int [] {500,500,500,500}, false, true);
 		}
 		bot.Exit();
 	}
