@@ -58,7 +58,7 @@ public class Script {
 				bot.Wait.ForFullyRested();
 			}
 			
-			if (bot.Player.Cell != "r22") bot.Player.Jump("r22", "Down");
+			if (bot.Player.Cell != cell) bot.Player.Jump(cell, pad);
 			
 			else bot.Player.Kill(enemy);
 			
