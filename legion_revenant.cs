@@ -33,8 +33,12 @@ public class Script {
 		bot.Log("Legion Revenant's Spellscroll bot is finished.");
 	}
 	
-	private double getEffectiveHeath (ScriptInterface bot) {
+	private double getEffectiveHealth (ScriptInterface bot) {
 		return (double) bot.Player.Health / bot.Player.MaxHealth;
+	}
+	
+	private bool shouldRest (ScriptInterface bot) {
+		return getEffectiveHealth(bot) < 0.7 && getEffectiveHealth(bot) > 0 ? true: false;
 	}
 	
 	private void JoinGlitched (ScriptInterface bot, string map) {
@@ -52,7 +56,7 @@ public class Script {
 		
 		bot.Bank.ToInventory(item);
 		while (bot.Inventory.GetQuantity(item) < quantity) {
-			if (getEffectiveHeath(bot) < 0.7) {
+			if (shouldRest(bot)) {
 				bot.Log("Health is low... resting.");
 				bot.Player.Rest(full:true);
 				bot.Wait.ForFullyRested();
@@ -77,17 +81,17 @@ public class Script {
 	}
 	
 	private void SpellscrollRoutine (ScriptInterface bot) {
-		if (bot.Map.Name != "revenant") bot.Player.Join("revenant");
-		FarmRoutine(bot, "revenant", "r2", "Left", "Ultra Aeacus", "Aeacus Empowered", 50);
-
-		if (bot.Map.Name != "necrodungeon") JoinGlitched(bot, "necrodungeon");
-		FarmRoutine(bot, "necrodungeon", "r22", "Down", "5 Headed Dracolich", "Dracolich Contract", 1000);
 		
 		if (bot.Map.Name != "revenant") bot.Player.Join("revenant");
-		FarmRoutine(bot, "revenant", "r3", "Left", "Forgotten Soul", "Tethered Soul", 300);
+		FarmRoutine(bot, "revenant", "r2", "Left", "Forgotten Soul", "Tethered Soul", 300);
 		
-		if (bot.Map.Name != "revenant") bot.Player.Join("shadowrealm");
+		if (bot.Map.Name != "revenant") bot.Player.Join("revenant");
+		FarmRoutine(bot, "revenant", "r3", "Left", "Ultra Aeacus", "Aeacus Empowered", 50);
+		
+		if (bot.Map.Name != "shadowrealm") bot.Player.Join("shadowrealm");
 		FarmRoutine(bot, "shadowrealm", "Enter", "Spawn", "*", "Darkened Essence", 500);
 		
+		if (bot.Map.Name != "necrodungeon") JoinGlitched(bot, "necrodungeon");
+		FarmRoutine(bot, "necrodungeon", "r22", "Down", "5 Headed Dracolich", "Dracolich Contract", 1000);
 	}
 }
