@@ -87,7 +87,7 @@ public class Script {
 		FarmRoutine(bot, "revenant", "r2", "Left", "Forgotten Soul", "Tethered Soul", 300);
 		
 		if (bot.Map.Name != "judgement") bot.Player.Join("judgement");
-		FarmRoutine(bot, "judgement", "r10a", "Down", "Ultra Aeacus", "Aeacus Empowered", 50);
+		FarmRoutine(bot, "judgement", "r10a", "Left", "Ultra Aeacus", "Aeacus Empowered", 50);
 		
 		if (bot.Map.Name != "shadowrealm") bot.Player.Join("shadowrealm");
 		FarmRoutine(bot, "shadowrealm", "Enter", "Spawn", "*", "Darkened Essence", 500);
