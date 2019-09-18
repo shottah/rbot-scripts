@@ -57,6 +57,7 @@ public class Script {
 		bot.Bank.ToInventory(item);
 		while (bot.Inventory.GetQuantity(item) < quantity) {
 			if (shouldRest(bot)) {
+				bot.Player.Jump(cell, pad);
 				bot.Log("Health is low... resting.");
 				bot.Player.Rest(full:true);
 				bot.Wait.ForFullyRested();
