@@ -73,7 +73,7 @@ public class Script {
 			}
 			
 			if (bot.Inventory.GetQuantity(item) % 10 == 0 && bot.Inventory.GetQuantity(item) > 0) {
-				bot.Log("Obtained: " + bot.Inventory.GetQuantity(item));
+				bot.Log("Obtained: " + bot.Inventory.GetQuantity(item) + " " + item);
 			}
 		}
 		bot.Inventory.ToBank(item);
