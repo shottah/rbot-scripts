@@ -68,9 +68,10 @@ public class Script {
 				bot.Sleep(4000);
 				bot.Player.Join("doomhaven", "r16", "Left");
 				bot.Player.HuntForItem("Zombie Knight|Zombie", "Battleon Cohort Conquered", q);
+				bot.Player.Jump("Enter", "Spawn");
 			}
 			
-			bot.Quests.EnsureAccept(6898);
+			bot.Quests.EnsureComplete(6898);
 			bot.Wait.ForDrop("Conquest Wreath");
 			bot.Player.Pickup("Conquest Wreath");
 		}
