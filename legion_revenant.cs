@@ -18,19 +18,49 @@ public class Script {
 		bot.Inventory.BankAllCoinItems();
 		bot.Bank.ToInventory("Revenant's Spellscroll");
 		
-		if (bot.Inventory.GetQuantity("Revenant's Spellscroll") < 20) {
+		bot.Bank.ToInventory("Infinite Legion Dark Caster");
+		
+		while (bot.Inventory.GetQuantity("Revenant's Spellscroll") < 20) {
+			
 			bot.Log(bot.Player.Username + " has " + bot.Inventory.GetQuantity("Revenant's Spellscroll") + " Revenant Spellscroll.");
 			bot.Log("Accepting the quest for Revenant's Spellscroll: Legion Fealty 1");
+			
 			bot.Quests.EnsureAccept(6897);
+			
 			SpellscrollRoutine(bot);
+			
+			ToInventoryRoutine(bot);
+			
 			bot.Log("Completing the quest for Revenant's Spellscroll: Legion Fealty 1");
+			
 			bot.Quests.EnsureComplete(6897);
+			
 			bot.Log("Picking up Revenant's Spellscroll");
+			
 			bot.Wait.ForDrop("Revenant's Spellscroll");
 			bot.Player.Pickup("Revenant's Spellscroll");
+			
+			ToBankRoutine(bot);
 		}
+		
 		bot.Inventory.ToBank("Revenant's Spellscroll");
 		bot.Log("Legion Revenant's Spellscroll bot is finished.");
+	}
+	
+	private void ToBankRoutine (ScriptInterface bot) {
+		bot.Log("Sending quest items to bank to conserve space");
+		bot.Inventory.ToBank("Aeacus Empowered");
+		bot.Inventory.ToBank("Tethered Soul");
+		bot.Inventory.ToBank("Darkened Essence");
+		bot.Inventory.ToBank("Dracolich Contract");
+	}
+	
+	private void ToInventoryRoutine (ScriptInterface bot) {
+		bot.Log("Sending quest items to inventory for quest completion...");
+		bot.Bank.ToInventory("Aeacus Empowered");
+		bot.Bank.ToInventory("Tethered Soul");
+		bot.Bank.ToInventory("Darkened Essence");
+		bot.Bank.ToInventory("Dracolich Contract");
 	}
 	
 	private double getEffectiveHealth (ScriptInterface bot) {
@@ -41,20 +71,26 @@ public class Script {
 		return getEffectiveHealth(bot) < 0.7 && getEffectiveHealth(bot) > 0 ? true: false;
 	}
 	
-	private void JoinGlitched (ScriptInterface bot, string map) {
-		for (int i = 0; i < 10; i++) {
-			if (bot.Map.Name != map) bot.Player.Join(map + "--9999");
+	private void JoinGlitched (ScriptInterface bot, string map, string cell, string pad) {
+		for (int i = 9; i > 0; i--) {
+			if (bot.Map.Name != map) bot.Player.Join(map + "--999" + i, cell, pad);
 			else break;
 			bot.Sleep(2000);
 		}
+		bot.Sleep(2000);
 		
-		if (bot.Map.Name != map) bot.Player.Join(map);
+		if (bot.Map.Name != map) bot.Player.Join(map, cell, pad);
+		else if (bot.Map.PlayerCount <= 1) bot.Player.Join(map, cell, pad);
 	}
 	
 	private void FarmRoutine (ScriptInterface bot, string map, string cell, string pad, string enemy, string item, int quantity) {
+		
 		bot.Log("Beginning the routine to farm for the " + item + " (" + quantity + ").");
 		
 		bot.Bank.ToInventory(item);
+		
+		if (bot.Inventory.GetQuantity(item) < quantity) JoinGlitched(bot, map, cell, pad);
+		
 		while (bot.Inventory.GetQuantity(item) < quantity) {
 			if (shouldRest(bot)) {
 				bot.Player.Jump(cell, pad);
@@ -76,23 +112,29 @@ public class Script {
 				bot.Log("Obtained: " + bot.Inventory.GetQuantity(item) + " " + item);
 			}
 		}
+		
+		bot.Options.AggroMonsters = false;
+		
+		bot.Player.Jump("Enter", "Spawn");
+		
 		bot.Inventory.ToBank(item);
 		
-		bot.Log("Ending the routine to farm for the " + item + "x" + quantity);
+		bot.Log("Ending the routine to farm for the " + item + " (" + quantity +")");
 	}
 	
 	private void SpellscrollRoutine (ScriptInterface bot) {
 		
-		if (bot.Map.Name != "revenant") bot.Player.Join("revenant");
+		//if (bot.Map.Name != "revenant") JoinGlitched(bot, "revenant");
 		FarmRoutine(bot, "revenant", "r2", "Left", "Forgotten Soul", "Tethered Soul", 300);
-		
-		if (bot.Map.Name != "judgement") bot.Player.Join("judgement");
+	
+		//if (bot.Map.Name != "judgement") JoinGlitched(bot, "judgement");
 		FarmRoutine(bot, "judgement", "r10a", "Left", "Ultra Aeacus", "Aeacus Empowered", 50);
 		
-		if (bot.Map.Name != "shadowrealm") bot.Player.Join("shadowrealm");
+		//if (bot.Map.Name != "shadowrealm") JoinGlitched(bot, "shadowrealm");
 		FarmRoutine(bot, "shadowrealm", "Enter", "Spawn", "*", "Darkened Essence", 500);
 		
-		if (bot.Map.Name != "necrodungeon") JoinGlitched(bot, "necrodungeon");
+		//if (bot.Map.Name != "necrodungeon") JoinGlitched(bot, "necrodungeon");
+		bot.Options.AggroMonsters = true;
 		FarmRoutine(bot, "necrodungeon", "r22", "Down", "5 Headed Dracolich", "Dracolich Contract", 1000);
 	}
 }
