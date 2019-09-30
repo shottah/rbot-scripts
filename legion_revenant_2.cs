@@ -42,6 +42,9 @@ public class Script {
 		bot.Skills.Add(3, 2f);
 		bot.Skills.Add(4, 2f);
 		
+		bot.Player.LoadBank();
+		bot.Inventory.BankAllCoinItems();
+		
 		bot.Bank.ToInventory("Conquest Wreath");
 		
 		foreach (string i in item) {
