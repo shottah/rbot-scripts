@@ -2,12 +2,6 @@ using RBot;
 
 public class Script {
 
-	private static int Q_ID = 3722;
-	private static string [] Q_ITEMS = {"Betrayer Extinguished", "Fiend Felled"};
-	private static string [] Q_ENEMIES = {"Fotia Elemental", "Dreadfiend of Nulgath"};
-	private static int [] Q_AMTS = {5, 2};
-	private static string [] Q_MAPS = {"Fotia", "Underworld"};
-
 	public void ScriptMain(ScriptInterface bot){
 		bot.Options.SafeTimings = true;
 		bot.Options.RestPackets = true;
@@ -29,14 +23,20 @@ public class Script {
 		if (!bot.Inventory.Contains("Infernal Caladbolg")) bot.Exit();
 		
 		while (!bot.ShouldExit()) {
-			bot.Quests.EnsureAccept(Q_ID);
-			for (int i = 0; i < 2; i++) {
-				bot.Player.Join(Q_MAPS[i]);
-				bot.Player.HuntForItem(Q_ENEMIES[i], Q_ITEMS[i], Q_AMTS[i], tempItem:true);
-				bot.Player.Jump("Enter", "Spawn");
-			}
-			bot.Quests.EnsureComplete(Q_ID);
+			bot.Quests.EnsureAccept(3722);
+			
+			bot.Player.Join("fotia");
+			bot.Player.HuntForItem("Fotia Elemental", "Betrayer Extinguished", 5, tempItem:true);
+			bot.Player.Jump("enter", "spawn");
+			
+			bot.Player.Join("evilwardage");
+			bot.Player.HuntForItem("Dreadfiend of Nulgath", "Fiend Felled", 2, tempItem:true);
+			
+			bot.Quests.EnsureComplete(3722);
+			bot.Wait.ForDrop("Legion Token");
 			bot.Player.Pickup("Legion Token");
+			
+			bot.Sleep(1200);
 		}
 	}
 }
