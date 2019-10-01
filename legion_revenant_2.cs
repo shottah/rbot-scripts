@@ -8,7 +8,7 @@ public class Script {
 		"Undead Mage|Undead Minion",
 		"Rotting Darkblood|Ghastly Darkblood",
 		"Ghoul Minion",
-		"Escaped Ghostly Zard|Escaped Wendighost",
+		"Escaped Ghostly Zardman|Escaped Wendighost",
 		"Bone Dragonling|Dark Fire",
 		"Doomwood Bonemuncher|Doomwood Ectomancer|Doomwood Treeant",
 		"Grim Soldier|Grim Fighter|Grim Fire Mage"
@@ -50,28 +50,42 @@ public class Script {
 		foreach (string i in item) {
 			bot.Bank.ToInventory(i);
 		}
+		// Ignore the next two lines if you only want to use one class
+		bot.Bank.ToInventory("Lightcaster"); // Put your soloing class here 
+		bot.Bank.ToInventory("Infinite Legion Dark Caster"); // Put farming class here
+		bot.Bank.ToInventory("Battleon Cohort Conquered"); 
 		
 		while (bot.Inventory.GetQuantity("Conquest Wreath") < 6) {
 			bot.Log("Currently earned Conquest Wreath (" + bot.Inventory.GetQuantity("Conquest Wreath") + ")");
 			bot.Quests.EnsureAccept(6898);
 			for (int i = 0; i < 9; i++) {
 				if (bot.Inventory.GetQuantity(item[i]) < q) {
+					// Getting this item (500) part of the quest
+					// and join the appropriate map
 					bot.Log("Hunting for " + item[i] + " (" + q + ")");
 					bot.Player.Join(map[i]);
+					
+					// Do a health check on monsters to modify farming style
+					if (avgHealth(bot) > 6000) bot.Player.EquipItem("LightCaster"); // Solo class for strong units
+					else bot.Player.EquipItem("Infinite Legion Dark Caster");		// Farming class for weak units
+					
+					// Hunt for the enemy(s) in the map
 					bot.Player.HuntForItem(enemy[i], item[i], q);
-					bot.Sleep(500);
+					
+					// Exit combat to prepare for next step
 					bot.Player.Jump("Enter", "Spawn");
-					bot.Sleep(1500);
+					bot.Sleep(1200);
 					bot.Log("Done.");
 				}
 			}
 			
-			
+			// Explicit routie for DoomHaven (I was getting halting issues 
+			// when this was part of main procedure above.
 			if (bot.Inventory.GetQuantity("Battleon Cohort Conquered") < q) {
-				bot.Sleep(4000);
 				bot.Player.Join("doomhaven", "r16", "Left");
 				bot.Player.HuntForItem("Zombie Knight|Zombie", "Battleon Cohort Conquered", q);
 				bot.Player.Jump("Enter", "Spawn");
+				bot.Sleep(1200);
 			}
 			
 			bot.Quests.EnsureComplete(6898);
@@ -81,5 +95,16 @@ public class Script {
 		
 		bot.Player.Join("yulgar");
 	
+	}
+	
+	public double avgHealth (ScriptInterface bot) {
+		double avg = 0;
+		int count = bot.Monsters.CurrentMonsters.Count;
+		foreach (Monster m in bot.Monsters.CurrentMonsters) {
+			avg = m.HP;
+		}
+		avg /= count;
+		bot.Log(avg.ToString());
+		return avg;
 	}
 }
