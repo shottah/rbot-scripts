@@ -40,6 +40,8 @@ public class Script{
 		bot.Player.LoadBank();
 		bot.Inventory.BankAllCoinItems();
 		
+		bot.Quests.EnsureAccept(5660);
+		
 		// Black Knight Orb
 		BlackKnightOrb(bot);
 		
@@ -109,11 +111,11 @@ public class Script{
 	
 	public void EldersBlood (ScriptInterface bot) {
 		bot.Bank.ToInventory("Elders' Blood");
-		if (bot.Inventory.Contains("Elders' Blood")) return;
+		if (bot.Inventory.Contains("Elders' Blood", 3)) return;
 		
 		bot.Player.Join("arcangrove");
 		
-		if (!bot.Quests.EnsureAccept(802)) return;
+		if (bot.Quests.IsDailyComplete(802)) return;
 		
 		bot.Player.HuntForItem("Gorillaphant", "Slain Gorillaphant", 50, true, true);
 		
