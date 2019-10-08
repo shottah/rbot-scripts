@@ -6,14 +6,16 @@ public class Script {
 		bot.Options.SafeTimings = true;
 		bot.Options.RestPackets = true;
 		bot.Options.PrivateRooms = true;
+		bot.Options.InfiniteRange = true;
 		bot.Options.ExitCombatBeforeQuest = true;
-		
+
 		bot.Skills.Add(1, 2f);
 		bot.Skills.Add(2, 2f);
 		bot.Skills.Add(3, 2f);
 		bot.Skills.Add(4, 2f);
+
 		bot.Skills.StartTimer();
-		
+				
 		bot.Player.LoadBank();
 		bot.Inventory.BankAllCoinItems();
 		
@@ -31,10 +33,11 @@ public class Script {
 		DailyRoutine(bot, "mountdoomskull", 3596, "Chaos Spider", "Dage's Scroll Fragment", 30);
 	
 		// Shadow Shield for Shadowscythe General
-		DailyRoutine(bot, "lightguardwar", 3828, "Lightguard Paladin|Citadel Crusader|Scorching Flame", "Shadow Sheild", 500);
+		DailyRoutine(bot, "lightguardwar", 3828, "Lightguard Paladin|Citadel Crusader|Scorching Flame", "Shadow Shield", 500);
 	
 		// Various Ores from Necropolis
-		if (!bot.Quests.IsDailyComplete(2091)) {
+		// Change "false" to "true" if you have unlocked this quest.
+		if (!bot.Quests.IsDailyComplete(2091) && false) {
 			string [] ores = {"Aluminum", "Barium", "Gold", "Iron", "Copper", "Silver", "Platinum"};
 			bot.Quests.EnsureAccept(2091);
 			bot.Player.Join("stalagbite");
@@ -55,6 +58,7 @@ public class Script {
 	}
 	
 	public void DailyRoutine (ScriptInterface bot, string map, int quest, string enemy, string item, int quantity) {
+		bot.Sleep(1200);
 		if (bot.Quests.IsDailyComplete(quest)) return;
 		if (bot.Map.Name != map) bot.Player.Join(map);
 		if (bot.Bank.Contains(item)) bot.Bank.ToInventory(item);
