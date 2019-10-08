@@ -24,45 +24,59 @@ using System;
 
 public class Script{
 
+	private static int TARGET_AMOUNT = 1000;
+	
 	public void ScriptMain(ScriptInterface bot){
 	
 		bot.Skills.StartTimer();
 		bot.Options.SafeTimings = true;
 		bot.Options.RestPackets = true;
 		bot.Options.PrivateRooms = true;
+		bot.Options.InfiniteRange = true;
 		bot.Options.ExitCombatBeforeQuest = true;
 		
-		for (int i = 1; i <= 4; i++) {
-			bot.Skills.Add(i, 1f);
+		bot.Drops.Add("Bone Dust");
+		bot.Drops.Add("Undead Essence");
+		bot.Drops.Add("Undead Energy");
+		bot.Drops.Add("Spirit Orb");
+		
+		bot.Drops.RejectElse = true;
+		bot.Drops.Start();
+		
+		if (bot.Map.Name != "battleunderb") {
+			bot.Sleep(2000);
+			bot.Player.Join("battleunderb--9999", "Enter", "Right");
+		} else {
+			bot.Player.Jump("Enter", "Right");
 		}
 		
-		string item = "Spirit Orb";
-		int q = 65000;
+		bot.Player.WalkTo(268, 367);
 		
-		// Prelim Item Check
-		bot.Bank.ToInventory("Bone Dust");
-		bot.Bank.ToInventory("Undead Essence");
-		bot.Bank.ToInventory("Spirit Orb");
-		
-		// Join the target map.
-		bot.Player.Join("battleunderb", "Enter", "Right");
-		int k = 1;
-		while (!bot.ShouldExit() || bot.Inventory.Contains(item, quantity:q)) {
+		while (bot.Inventory.GetQuantity("Spirit Orb") < TARGET_AMOUNT) {
+			//AcceptRoutine(bot, new int [] {2082, 2083});
+			CompleteRoutine(bot, new int [] {2082, 2083});
 			bot.Player.Kill("*");
-			bot.Player.Pickup(new string[] {"Bone Dust", "Undead Essence", "Spirit Orb"});
-			handleQuest(bot, 2082);
-			handleQuest(bot, 2083);
 		}
-		
-		// Get Quests 
-		// Essential Essences, Bone some Dust (2082, 2083)
-		
-		
 	}
 	
-	public bool handleQuest (ScriptInterface bot, int qid) {
-		if (!bot.Quests.IsInProgress(qid)) return bot.Quests.EnsureAccept(qid);
-		if (bot.Quests.CanComplete(qid)) return bot.Quests.EnsureComplete(qid);
-		return false;
+	public void AcceptRoutine(ScriptInterface bot, int [] qid) {
+		if (!bot.Quests.IsInProgress(qid[0])) bot.Quests.EnsureAccept(qid[0]);
+		else if (!bot.Quests.IsInProgress(qid[1])) bot.Quests.EnsureAccept(qid[1]);
+		else return;
+	}
+	
+	public void CompleteRoutine(ScriptInterface bot, int [] qid) {
+		if (!bot.Quests.IsInProgress(qid[0])) bot.Quests.EnsureAccept(qid[0]);
+		if (!bot.Quests.IsInProgress(qid[1])) bot.Quests.EnsureAccept(qid[1]);
+		if (!(bot.Quests.CanComplete(qid[0]) || bot.Quests.CanComplete(qid[1]))) return;
+		bot.Player.WalkTo(921, 473);
+		for (int i = 0; i < qid.Length; i++) {
+			while (bot.Quests.CanComplete(qid[i])) {
+				bot.Quests.EnsureComplete(qid[i]);
+				bot.Quests.EnsureAccept(qid[i]);
+			}
+		}
+		bot.Player.WalkTo(269, 97);
+		bot.Player.WalkTo(268, 367);
 	}
 }
