@@ -24,16 +24,18 @@ using System;
 
 public class Script{
 
-	private static int TARGET_AMOUNT = 1000;
+	private static int TARGET_AMOUNT = 65000;
 	
 	public void ScriptMain(ScriptInterface bot){
 	
 		bot.Skills.StartTimer();
 		bot.Options.SafeTimings = true;
 		bot.Options.RestPackets = true;
-		bot.Options.PrivateRooms = true;
 		bot.Options.InfiniteRange = true;
 		bot.Options.ExitCombatBeforeQuest = true;
+		
+		bot.Skills.LoadSkills("./Skills/Generic.xml");
+		bot.Skills.StartTimer();
 		
 		bot.Drops.Add("Bone Dust");
 		bot.Drops.Add("Undead Essence");
@@ -53,9 +55,10 @@ public class Script{
 		bot.Player.WalkTo(268, 367);
 		
 		while (bot.Inventory.GetQuantity("Spirit Orb") < TARGET_AMOUNT) {
-			//AcceptRoutine(bot, new int [] {2082, 2083});
 			CompleteRoutine(bot, new int [] {2082, 2083});
-			bot.Player.Kill("*");
+			while (bot.Inventory.GetQuantity("Bone Dust") < 80 && 
+				bot.Inventory.GetQuantity("Undead Essence") < 50)
+				bot.Player.Kill("*");
 		}
 	}
 	

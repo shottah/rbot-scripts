@@ -9,11 +9,7 @@ public class Script {
 		bot.Options.InfiniteRange = true;
 		bot.Options.ExitCombatBeforeQuest = true;
 
-		bot.Skills.Add(1, 2f);
-		bot.Skills.Add(2, 2f);
-		bot.Skills.Add(3, 2f);
-		bot.Skills.Add(4, 2f);
-
+		bot.Skills.LoadSkills("./Skills/VoidHighLord.xml");
 		bot.Skills.StartTimer();
 				
 		bot.Player.LoadBank();
@@ -37,7 +33,7 @@ public class Script {
 	
 		// Various Ores from Necropolis
 		// Change "false" to "true" if you have unlocked this quest.
-		if (!bot.Quests.IsDailyComplete(2091) && false) {
+		if (!bot.Quests.IsDailyComplete(2091)) {
 			string [] ores = {"Aluminum", "Barium", "Gold", "Iron", "Copper", "Silver", "Platinum"};
 			bot.Quests.EnsureAccept(2091);
 			bot.Player.Join("stalagbite");
