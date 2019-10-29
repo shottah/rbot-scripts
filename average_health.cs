@@ -62,6 +62,9 @@ public class Script{
 	}
 	
 	public void combatClassHandler(ScriptInterface bot, double health) {
+		if (!(bot.Inventory.Contains(FARM_CLASS) && bot.Bank.Contains(FARM_CLASS))) return;
+		if (!(bot.Inventory.Contains(SOLO_CLASS) && bot.Bank.Contains(SOLO_CLASS))) return;
+		
 		bot.Skills.StopTimer();
 		bot.Skills.Clear();
 		
