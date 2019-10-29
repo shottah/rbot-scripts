@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 public class Script{
 
+	public string SOLO_CLASS = "Void Highlord";
+	public string FARM_CLASS = "Shaman";
+
 	public void ScriptMain(ScriptInterface bot){
 		bot.Skills.StartTimer();
 		bot.Options.SafeTimings = true;
@@ -21,6 +24,7 @@ public class Script{
 		
 		double avg = averageHealth(bot);
 		bot.Log(avg.ToString());
+		combatClassHandler(bot, avg);
 		bot.Exit();
 	}
 	
@@ -55,5 +59,23 @@ public class Script{
 			}
 		}
 		return average/count;
-	}	
+	}
+	
+	public void combatClassHandler(ScriptInterface bot, double health) {
+		bot.Skills.StopTimer();
+		bot.Skills.Clear();
+		
+		string nextClass = "";
+		if (health > 6000) {
+			nextClass = SOLO_CLASS;
+		} else {
+			nextClass = FARM_CLASS;
+		}
+		
+		bot.Player.EquipItem(nextClass);
+		bot.Skills.LoadSkills("./Skills/" + nextClass.Replace(" ", "") + ".xml");
+		bot.Skills.StartTimer();
+	}
+	
+	
 }
