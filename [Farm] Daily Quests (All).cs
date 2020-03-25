@@ -1,5 +1,7 @@
 using RBot;
 
+// Farm all Daily Quests.
+
 public class Script {
 
 	public void ScriptMain(ScriptInterface bot){
@@ -62,7 +64,7 @@ public class Script {
 			bot.Quests.EnsureAccept(quest);
 			while (!bot.Quests.CanComplete(quest)) bot.Player.Hunt(enemy);
 			bot.Quests.EnsureComplete(quest);
-			bot.Wait.ForPickup(item);
+			bot.Wait.ForDrop(item);
 			bot.Player.Pickup(item);
 		}
 		bot.Log(item + " (" + bot.Inventory.GetQuantity(item) + ")");
