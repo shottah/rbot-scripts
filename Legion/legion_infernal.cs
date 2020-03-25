@@ -27,7 +27,7 @@ public class Script {
 			
 			bot.Player.Join("fotia");
 			bot.Player.HuntForItem("Fotia Elemental", "Betrayer Extinguished", 5, tempItem:true);
-			bot.Player.Jump("enter", "spawn");
+			bot.Player.Jump("Enter", "Spawn");
 			
 			bot.Player.Join("evilwardage");
 			bot.Player.HuntForItem("Dreadfiend of Nulgath", "Fiend Felled", 2, tempItem:true);

@@ -33,6 +33,7 @@ public class Script {
 		bot.Skills.StartTimer();
 		
 		bot.Player.LoadBank();
+		bot.Inventory.BankAllCoinItems();
 		
 		foreach (string item in ITEMS) {
 			if (bot.Bank.Contains(item)) bot.Bank.ToInventory(item);
@@ -42,7 +43,7 @@ public class Script {
 		bot.Drops.RejectElse = true;
 		bot.Drops.Start();
 		
-		while (!bot.ShouldExit() && !bot.Inventory.Contains("Voucher of Nulgath (non-mem)")) {
+		while (!bot.ShouldExit()) {
 			
 			bot.Quests.EnsureAccept(6183);
 			
@@ -50,7 +51,7 @@ public class Script {
 				TempItemRoutine(bot, "mobius", "Slugfit", "Slugfit Horn", 5);
 				TempItemRoutine(bot, "mobius", "Fire Imp", "Imp Flame", 3);
 				TempItemRoutine(bot, "faerie", "Cyclops Warlord", "Cyclops Horn", 3);
-				bot.Player.Join("citadel", "m22", "Left");
+				if (bot.Map.Name != "tercessuinotlim") bot.Player.Join("citadel", "m22", "Left");
 				TempItemRoutine(bot, "tercessuinotlim", "Dark Makai", "Makai Fang", 5);
 				TempItemRoutine(bot, "greenguardwest", "Big Bad Boar", "Wereboar Tusk", 2);
 			} while (!bot.Quests.CanComplete(6183));
@@ -64,6 +65,11 @@ public class Script {
 	public void TempItemRoutine (ScriptInterface bot, string map, string enemy, string item, int quantity) {
 		if (bot.Inventory.ContainsTempItem(item, quantity)) return;
 		if (bot.Map.Name != map) bot.Player.Join(map);
-		bot.Player.Hunt(enemy);
+		bot.Sleep(1500);
+		while (!bot.Inventory.ContainsTempItem(item,quantity)) {
+			bot.Player.Hunt(enemy);
+		}
+		bot.Player.Jump("Enter", "Spawn");
+		bot.Wait.ForFullyRested();
 	}
 }
