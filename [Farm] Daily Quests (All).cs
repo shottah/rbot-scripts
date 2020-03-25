@@ -11,7 +11,7 @@ public class Script {
 		bot.Options.InfiniteRange = true;
 		bot.Options.ExitCombatBeforeQuest = true;
 
-		bot.Skills.LoadSkills("./Skills/VoidHighLord.xml");
+		if (bot.Skills.OverrideSkills == null) bot.Skills.LoadSkills("./Skills/Generic.xml");
 		bot.Skills.StartTimer();
 				
 		bot.Player.LoadBank();
