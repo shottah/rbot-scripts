@@ -1,10 +1,6 @@
 /*
 	Created by matabeitt
-	This script farms for Good Rep Rank 10.
-	
-	Requirements:
-		The player must have 1 (one) free inventory 
-		space.	
+	This script farms for Ravenloss Rep Rank 10.
 
 	Notes:
 		The script uses a private room.
