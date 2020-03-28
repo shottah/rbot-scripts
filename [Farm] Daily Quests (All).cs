@@ -47,21 +47,23 @@ public class Script {
 				if (bot.Player.DropExists(o)) {
 					bot.Bank.ToInventory(o);
 					bot.Player.Pickup(o);
+					bot.Log(o + "(" + bot.Inventory.GetQuantity(o) + ")");
 					bot.Inventory.ToBank(o);
 				}
 			}
 		}
 		
 		bot.Player.Join("yulgar");
+		bot.Exit();
 	}
 	
 	public void DailyRoutine (ScriptInterface bot, string map, int quest, string enemy, string item, int quantity) {
-		bot.Sleep(1200);
+		bot.Quests.EnsureAccept(quest);
 		if (bot.Quests.IsDailyComplete(quest)) return;
-		if (bot.Map.Name != map) bot.Player.Join(map);
+		else if (bot.Map.Name != map) bot.Player.Join(map);
+		bot.Sleep(1500);
 		if (bot.Bank.Contains(item)) bot.Bank.ToInventory(item);
 		if (!bot.Inventory.Contains(item, quantity)) {
-			bot.Quests.EnsureAccept(quest);
 			while (!bot.Quests.CanComplete(quest)) bot.Player.Hunt(enemy);
 			bot.Quests.EnsureComplete(quest);
 			bot.Wait.ForDrop(item);
