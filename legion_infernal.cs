@@ -6,17 +6,14 @@ public class Script {
 		bot.Options.SafeTimings = true;
 		bot.Options.RestPackets = true;
 		bot.Options.PrivateRooms = true;
-		bot.Options.InfiniteRange = true;
-		bot.Options.SkipCutsenes = true;
+		bot.Options.Magnetise = true;
 		bot.Options.ExitCombatBeforeQuest = true;
 		
-		bot.Skills.StartTimer();
+		if (bot.Skills.OverrideSkills == null) bot.Skills.StartSkills("Skills/Generic.xml");
+		else bot.Skills.StartTimer();
 		
-		bot.Skills.Add(1, 2f);
-		bot.Skills.Add(2, 2f);
-		bot.Skills.Add(3, 2f);
-		bot.Skills.Add(4, 2f);
-		
+		bot.Player.LoadBank();
+
 		bot.Bank.ToInventory("Legion Token");
 		bot.Bank.ToInventory("Infernal Caladbolg");
 		
@@ -33,7 +30,6 @@ public class Script {
 			bot.Player.HuntForItem("Dreadfiend of Nulgath", "Fiend Felled", 2, tempItem:true);
 			
 			bot.Quests.EnsureComplete(3722);
-			bot.Wait.ForDrop("Legion Token");
 			bot.Player.Pickup("Legion Token");
 			
 			bot.Sleep(1200);
