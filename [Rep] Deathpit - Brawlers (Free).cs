@@ -8,6 +8,7 @@ public class Script {
 		bot.Options.ExitCombatBeforeQuest = true;
 		
 		if (bot.Skills.OverrideSkills == null) bot.Skills.StartSkills("Skills/Generic.xml");
+		else bot.Skills.StartTimer();
 		
 		int QUEST = 5144;
 		
